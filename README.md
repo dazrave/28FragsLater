@@ -5,22 +5,22 @@ This is [Grand Theft Auto V](https://en.wikipedia.org/wiki/Grand_Theft_Auto_V) M
 
 ## Synopsis
 
-**Day 1 - Exposure**
+**Day 1 - Exposure**:
 A group of missguided animal liberation activists break into the Humane medical research laboratory, unaware that the animals are infected with a highly contagious rage-inducing virus. After breaking out the animals, the virus quickly spreads across the surrounding rural area, wiping out the entire population nearby towns.
 
-**Day 3 - Infection**
+**Day 3 - Infection**:
 Just a few days after the Humane laboratory is breached, news of a virus spreading across Blaine County causes mass panic. Emergency services are stretched and riots soon break out.
 
-**Day 8 - Epidemic**
+**Day 8 - Epidemic**:
 After the Military is deployed on the streets to keep the peace, official advise is to stay indoors, but not everyone has the same idea.
 
-**Day 15 - Evacuation**
+**Day 15 - Evacuation**:
 A safe zone is setup and maintained around Los Santos International Airport. Allowing Titan aircrafts to line up on the tarmac for intimidate  evacuation of the city... "Please walk to the exit in an orderly fashion".
 
-**Day 20 - Devastation**
+**Day 20 - Devastation**:
 With people either fleeing or infected, the Land Act Dam's generators shut down for the first time in over... well, 3 months... plunging the remaining citizens into total darkness.
 
-**Day 28 - Alone**
+**Day 28 - Alone**:
 ...
 
 ## History
