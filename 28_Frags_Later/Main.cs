@@ -234,7 +234,7 @@ namespace _28_Frags_Later
             var trashTruckFound = Function.Call<bool>(Hash.IS_PED_TRYING_TO_ENTER_A_LOCKED_VEHICLE, player);
             if (trashTruckFound)
                 UI.ShowSubtitle("~b~Trash truck~s~ locked. Find the key.", 15000); // Let player know the current objective
-            //Day1Stage2();
+            // Day1Stage2();
 
             var isDogDead = Function.Call<bool>(Hash.IS_PED_DEAD_OR_DYING, guardDog1, true);
             if (isDogDead && currentDay == 1)

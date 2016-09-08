@@ -31,7 +31,7 @@ A keen web developer who wanted to get his hands dirty in game design back in 20
 
 To be completed upon release of mod.
 
-## Gameplay Requirements
+## Gameplay requirements
 
 * [C++ ScriptHook by Alexander Blade](http://www.dev-c.com/gtav/scripthookv/)
 * [C# ScriptHookVDotNet by Patrick Mours](https://github.com/crosire/scripthookvdotnet)
