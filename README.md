@@ -37,9 +37,7 @@ To be completed upon release of mod.
 * [C# ScriptHookVDotNet by Patrick Mours](https://github.com/crosire/scripthookvdotnet)
 * [Open All Interiors by NewTheft](https://www.gta5-mods.com/scripts/open-all-interiors)
 
-## Development Requirements
-* [C++ ScriptHook by Alexander Blade](http://www.dev-c.com/gtav/scripthookv/)
-* [C# ScriptHookVDotNet by Patrick Mours](https://github.com/crosire/scripthookvdotnet)
+## Additional requirements for development
 * [.NET Framework ≥ 4.5.2](https://www.microsoft.com/download/details.aspx?id=42642)
 * [Visual C++ Redistributable for Visual Studio 2013 x64](https://www.microsoft.com/download/details.aspx?id=40784)
 
