@@ -1,7 +1,7 @@
 # 28FragsLater
 ## Overview
 
-This is [Grand Theft Auto V](https://en.wikipedia.org/wiki/Grand_Theft_Auto_V) Mod written in C# loosely based on the popular post-apocalyptic zombie film titled ['28 Days Later'](http://www.imdb.com/title/tt0289043/). The Mod adds an additional set of missions to the GTAV single player game for PC.
+This is a [Grand Theft Auto V](https://en.wikipedia.org/wiki/Grand_Theft_Auto_V) Mod written in C# loosely based on the popular post-apocalyptic zombie film titled ['28 Days Later'](http://www.imdb.com/title/tt0289043/). The Mod adds an additional set of missions to the GTAV single player game for PC.
 
 ## Synopsis
 
