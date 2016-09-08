@@ -6,19 +6,19 @@ This is [Grand Theft Auto V](https://en.wikipedia.org/wiki/Grand_Theft_Auto_V) M
 ## Synopsis
 
 **Day 1 - Exposure**:
-A group of missguided animal liberation activists break into the Humane medical research laboratory, unaware that the animals are infected with a highly contagious rage-inducing virus. After breaking out the animals, the virus quickly spreads across the surrounding rural area, wiping out the entire population nearby towns.
+A group of missguided animal liberation activists break into the [Humane medical research laboratory](http://gta.wikia.com/wiki/Humane_Labs_and_Research), unaware that the animals are infected with a highly contagious [rage-inducing virus](http://28dayslater.wikia.com/wiki/Rage_Virus). After breaking out the animals, the virus quickly spreads across the surrounding rural area, wiping out the entire population nearby towns.
 
 **Day 3 - Infection**:
-Just a few days after the Humane laboratory is breached, news of a virus spreading across Blaine County causes mass panic. Emergency services are stretched and riots soon break out.
+Just a few days after the Humane laboratory is breached, news of a virus spreading across [Blaine County](http://gta.wikia.com/wiki/Blaine_County) causes mass panic. Emergency services are stretched and riots soon break out.
 
 **Day 8 - Epidemic**:
-After the Military is deployed on the streets to keep the peace, official advise is to stay indoors, but not everyone has the same idea.
+After the [Military](http://gta.wikia.com/wiki/Military) is deployed on the streets to keep the peace, official advice is to stay indoors, but not everyone has the same idea.
 
 **Day 15 - Evacuation**:
-A safe zone is setup and maintained around Los Santos International Airport. Allowing Titan aircrafts to line up on the tarmac for intimidate  evacuation of the city... "Please walk to the exit in an orderly fashion".
+A safe zone is setup and maintained around [Los Santos International Airport](http://gta.wikia.com/wiki/Los_Santos_International_Airport_(HD_Universe)). Allowing [Titan](http://gta.wikia.com/wiki/Titan) aircrafts to line up on the tarmac for intimidate evacuation of the city... "Please walk to the exit in an orderly fashion".
 
 **Day 20 - Devastation**:
-With people either fleeing or infected, the Land Act Dam's generators shut down for the first time in over... well, 3 months... plunging the remaining citizens into total darkness.
+With people either fleeing or infected, the [Palmer-Taylor Power Station](http://gta.wikia.com/wiki/Palmer-Taylor_Power_Station) shut down for the first time in over... well, a few days... plunging the remaining citizens into total darkness.
 
 **Day 28 - Alone**:
 ...
