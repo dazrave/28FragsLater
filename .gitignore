@@ -5,7 +5,7 @@
 [Dd]ebug/
 [Rr]elease/
 
-# Visual Studio cache files
+# Visual Studio files
 ipch/
 *.aps
 *.cachefile
@@ -15,6 +15,7 @@ ipch/
 *.user
 *.sdf
 *.suo
+*.csproj
 
 # Temporary OS files
 .DS_Store
