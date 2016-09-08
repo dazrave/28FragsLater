@@ -1,4 +1,4 @@
-# 28FragsLater
+# 28 Frags Later
 ## Overview
 
 This is a [Grand Theft Auto V](https://en.wikipedia.org/wiki/Grand_Theft_Auto_V) Mod written in C# loosely based on the popular post-apocalyptic zombie film titled ['28 Days Later'](http://www.imdb.com/title/tt0289043/). The Mod adds an additional set of missions to the GTAV single player game for PC.
@@ -22,6 +22,9 @@ With people either fleeing or infected, the [Palmer-Taylor Power Station](http:/
 
 **Day 28 - Alone**:
 ...
+
+## Gameplay
+Each 'day' acts as a mission which follows the story of a differant person's journey during the virus outbreak.
 
 ## History
 
