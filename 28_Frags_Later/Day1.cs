@@ -31,13 +31,13 @@ namespace _28_Frags_Later
             Main.currentDay = 1;
             Main.currentStage = 1;
             Common.setWorld(01, 00, 00, true, "CLEAR"); // KEY: Time of day, pause clock, weather type  
-            //wait(200);
             // Remove all player weapons (unless in debug)
             if (!Main.debugMode)
                 Function.Call(Hash.REMOVE_ALL_PED_WEAPONS, Game.Player.Character, true);
             // Give player weapons
             Common.givePlayerWeapon(WeaponHash.StunGun, 20);
             Common.givePlayerWeapon(WeaponHash.Crowbar, 1);
+            Common.givePlayerWeapon(WeaponHash.Unarmed, 1);
             // Spawn player next to Hippie trailer (unless in debug)
             if (!Main.debugMode)
                 Game.Player.Character.Position = new Vector3(2338.347f, 2568.475f, 47.704f);
@@ -58,7 +58,6 @@ namespace _28_Frags_Later
             trashTruck = Common.SpawnVehicle(VehicleHash.Trash, new Vector3(coords[0], coords[1], coords[2]), coords[3]);
             // Lock trashTruck's doors
             Function.Call(Hash.SET_VEHICLE_DOORS_LOCKED, trashTruck, 2); // Lock the trashTruck
-            //Wait(200);
             // Spawn a blip at junkYard
             junkYard = Common.SpawnBlip(2399.415f, 3086.904f, 47.629f, BlipSprite.BigCircle, 21, true);
             // Fade in screen (unless in debug)
@@ -80,11 +79,12 @@ namespace _28_Frags_Later
             // Add blip to trashTruck
             Common.SpawnVehicleBlip(trashTruck, BlipSprite.GarbageTruck, 21, false);
 
+            
+            // Spawn the guardDogs
+            guardDog1 = Common.SpawnPed(PedHash.Rottweiler, new Vector3(2399.415f, 3086.904f, 47.629f), true);
+            guardDog1.Task.FightAgainst(Game.Player.Character);
             /* -------- UNDER TESTING --------*/
-            //guardDog1 = Common.SpawnPed(PedHash.Rottweiler, new Vector3(2399.415f, 3086.904f, 47.629f), false); // Spawn guard dog 1
-            //Common.SpawnPedBlip(guardDog1, BlipSprite.Standard, 1, false);
             //guardDog1.Task.StandStill(0);
-            //guardDog1.Task.FightAgainst(player);
             /* -------- END OF TESTNG ---------*/
 
             // Display mission objective

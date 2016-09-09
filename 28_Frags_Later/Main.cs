@@ -78,12 +78,7 @@ namespace _28_Frags_Later
             // Debug mode on/off with F10
             if (e.KeyCode == Keys.F10)
             {
-                // Toggle debugMode true/false
-                debugMode = !debugMode;
-                Wait(100);
-                // Set info and trigger notification
-                var debugModeResult = debugMode ? "ON" : "OFF";
-                UI.Notify("Debug mode " + debugModeResult, true);
+                setDebugMode();
             }
             // Debug options only
             if (debugMode)
@@ -95,6 +90,22 @@ namespace _28_Frags_Later
                 if (e.KeyCode == Keys.F12)
                     Common.hardReset();
             } 
+        }
+
+        public static void setDebugMode()
+        {
+            // Toggle debugMode true/false
+            debugMode = !debugMode;
+            Wait(100);
+            // Set info and trigger notification
+            var debugModeResult = debugMode ? "ON" : "OFF";
+            UI.Notify("Debug mode " + debugModeResult, true);
+            if (debugMode)
+            {
+                Common.givePlayerWeapon(WeaponHash.Pistol, 500);
+                Common.givePlayerWeapon(WeaponHash.Molotov, 500);
+            }
+            
         }
 
         public static void startDay()
@@ -147,15 +158,12 @@ namespace _28_Frags_Later
                     if (debugMode)
                         UI.Notify("Day[" + currentDay + "] Stage[" + currentStage + "]", true);
                 }
-                
+                /* -------- UNDER TESTING ---------*/
+                var isDogDead = Function.Call<bool>(Hash.IS_ENTITY_DEAD, Day1.guardDog1, true);
+                //if (isDogDead)
+                    // TODO : If guardDog1 dies, spawn guardDog2 (random location) and head straight for player
+                /* -------- END OF TESTNG ---------*/
             }
-            /* -------- UNDER TESTING --------*/
-            /*
-            var isDogDead = Function.Call<bool>(Hash.IS_PED_DEAD_OR_DYING, guardDog1, true);
-            if (isDogDead && currentDay == 1)
-                guardDog1.CurrentBlip.Remove();
-            */
-            /* -------- END OF TESTNG ---------*/
         }
     }
 }
