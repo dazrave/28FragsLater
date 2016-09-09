@@ -1,21 +1,4 @@
-﻿// 28 Frags Later 
-// by DazRave
-// www.28fragslater.com
-// 
-// Here we have all of the functions used
-// globally throughout the script. Things that
-// are commonly used like spawning peds & vehicles
-// 
-// Feel free to use these in your own scripts,
-// most of what I have learnt has come from
-// hacking at other peoples scripts to create
-// my own!
-//
-// Questions? 
-// Email: GTA@dazrave.uk
-
-/* Lets include some stuff that we'll need to call */
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,18 +9,15 @@ using GTA.Native;
 using GTA.Math;
 using NativeUI;
 
-// For the record...
-// I've never scripted in C# before now however I have
-// some PHP, JavaScript and other web development
-// knowledge. I've tried to comment as much as I 
-// could in order to break the script down
-// into easy to understand chunks. I can't confirm
-// that my comments/explinations are correct though!
-
 namespace _28_Frags_Later
 {
-    class Common
+    public class Common
     {
+
+        /* Global */
+        public static bool noPolice;
+        public static bool neverWanted;
+
         // Spawn a ped
         public static Ped SpawnPed(Model pedname, Vector3 location, bool friendly)
         {
@@ -126,6 +106,62 @@ namespace _28_Frags_Later
         public static void givePlayerWeapon(WeaponHash weaponHash, int ammo)
         {
             Game.Player.Character.Weapons.Give(weaponHash, ammo, true, true);
+        }
+        // Run a hard reset of the world
+        public static void hardReset()
+        {
+            // Run a soft reset first, just to be sure!
+            softReset();
+            // Detect and delete all vehicles
+            foreach (Vehicle v in World.GetAllVehicles())
+                v.Delete();
+            // Detect and delete all peds
+            foreach (Ped p in World.GetAllPeds())
+                p.Delete();
+            // Detect and delete all active blips
+            foreach (Blip b in World.GetActiveBlips())
+                b.Remove();
+            //Wait(200);
+            // Reset Day and Stage values (do this last)
+            Main.currentDay = 0;
+            Main.currentStage = 0;
+            if (Main.debugMode)
+                UI.Notify("Hard Reset", true);
+        }
+
+        // Run a soft reset of the world
+        public static void softReset()
+        {
+            // Global reset elements
+            neverWanted = false;
+            noPolice = false;
+            // Reset to midday, make sure the clock isn't paused and clear the weather
+            Common.setWorld(12, 00, 00, false, "CLEAR");
+            // Remove any wanted stars from player
+            Function.Call(Hash.CLEAR_PLAYER_WANTED_LEVEL, Game.Player);
+            // Reset all Day 1 elements
+            if (Main.currentDay == 1)
+            {
+                // Day1.trashTruck vehicle
+                var trashTruckExists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, Day1.trashTruck);
+                if (trashTruckExists)
+                    Day1.trashTruck.Delete();
+                // Day1.startBike vehicle
+                var startBikeExists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, Day1.startBike);
+                if (startBikeExists)
+                    Day1.startBike.Delete();
+                // junkYard blip
+                var junkYardExists = Function.Call<bool>(Hash.DOES_BLIP_EXIST, Day1.junkYard);
+                if (junkYardExists)
+                    Day1.junkYard.Remove();
+                /* -------- UNDER TESTING --------*/
+                /*var guardDog1Exists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, guardDog1);
+                if (guardDog1Exists)
+                    guardDog1.Delete();*/
+                /* -------- END OF TESTNG ---------*/
+            }
+            if (Main.debugMode)
+                UI.Notify("Soft Reset", true);
         }
     }
 }
