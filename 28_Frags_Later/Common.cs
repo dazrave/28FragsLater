@@ -137,6 +137,7 @@ namespace _28_Frags_Later
             noPolice = false;
             // Reset to midday, make sure the clock isn't paused and clear the weather
             Common.setWorld(12, 00, 00, false, "CLEAR");
+            World.SetBlackout(false);
             // Remove any wanted stars from player
             Function.Call(Hash.CLEAR_PLAYER_WANTED_LEVEL, Game.Player);
             // Reset all Day 1 elements

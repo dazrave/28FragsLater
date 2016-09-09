@@ -104,8 +104,6 @@ namespace _28_Frags_Later
             // TODO : Track and start the next uncompleted day in the series!
         }
 
-
-
         public static void missionFailed (string message, int day, int stage)
         {
             // Display message
@@ -116,8 +114,6 @@ namespace _28_Frags_Later
             // Clear mission
             Common.softReset();
         }
-
-
 
         // Start tick process
         public static void onTick(object sender, EventArgs e) 
@@ -160,7 +156,6 @@ namespace _28_Frags_Later
                 guardDog1.CurrentBlip.Remove();
             */
             /* -------- END OF TESTNG ---------*/
-
         }
     }
 }
