@@ -59,17 +59,18 @@ namespace _28_Frags_Later
         public Ped guardDog1;
         public Ped guardDog2;
         public Blip junkYard;
-        public Entity keys;
         /* Global */
         public Ped player = Game.Player.Character;
         public bool noPolice;
         public bool neverWanted;
+        public bool debugMode;
 
         public Main()
         {
             /* Make sure all custom global features are switched off by default */
             neverWanted = false;
             noPolice = false;
+            debugMode = true;
 
             /* Link in ticks and key press tracking */
             Tick += onTick;
@@ -81,16 +82,24 @@ namespace _28_Frags_Later
             if (e.KeyCode == Keys.F9) // If F9 is pressed lets...
                 startDay(); // Start the method to determin what day it is
 
-            if (e.KeyCode == Keys.F10)
-                resetWorld(); // Trigger reset
+            if (debugMode)
+            {
+                if (e.KeyCode == Keys.F11)
+                    Function.Call(Hash.SET_VEHICLE_DOORS_LOCKED, trashTruck, 0); // Lock the trashTruck
 
-            if (e.KeyCode == Keys.F12)
-                hardReset(); // Trigger hard reset
+                if (e.KeyCode == Keys.F10)
+                    resetWorld(); // Trigger reset
+
+                if (e.KeyCode == Keys.F12)
+                    hardReset(); // Trigger hard reset
+            }
+
         }
 
         void startDay()
         {
             //if (currentDay == 1)
+            Wait(200);
             Day1Stage1();
             // TODO : Track and start the next uncompleted day in the series
         }
@@ -100,10 +109,15 @@ namespace _28_Frags_Later
         {
             foreach (Vehicle v in World.GetAllVehicles())
                 v.Delete();
+            Wait(200);
             foreach (Ped p in World.GetAllPeds())
                 p.Delete();
+            foreach (Blip b in World.GetActiveBlips())
+                b.Remove();
+            Wait(200);
             currentDay = 0;
             currentStage = 0;
+            Wait(200);
             resetWorld(); // Run usual reset
         }
 
@@ -117,43 +131,37 @@ namespace _28_Frags_Later
             Function.Call(Hash.CLEAR_PLAYER_WANTED_LEVEL, Game.Player);
 
             /* Day 1 reset */
-            if (currentDay == 1)
-            {
+            var trashTruckExists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, trashTruck);
+            if (trashTruckExists)
                 trashTruck.Delete();
+            var startBikeExists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, startBike);
+            if (startBikeExists)
                 startBike.Delete();
-                /* ---------- UNDER TESTING ----------*/
-                guardDog1.Delete();
+            var junkYardExists = Function.Call<bool>(Hash.DOES_BLIP_EXIST, junkYard);
+            if (junkYardExists)
                 junkYard.Remove();
-                Function.Call(Hash.SET_BLIP_SPRITE, junkYard, 50);
-                //guardDog2.Delete();
-                /* ----------- END TESTING -----------*/
-            }
+            /*var guardDog1Exists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, guardDog1);
+            if (guardDog1Exists)
+                guardDog1.Delete();*/
 
             /* Lastly, reset day and stage */
             currentDay = 0;
             currentStage = 0;
 
-            UI.ShowSubtitle("The world has been reset", 5000);
+            if(debugMode)
+                UI.Notify("RESET - Day[" + currentDay + "] Stage[" + currentStage + "]", true);
         }
-
-        /* List of days and stages:
-         * 1.1 - Spawn > trashTruck / Spawn > key > trashTruck
-         * 1.2 - trashTruck > Humane Labs > Gaurd Hut > Park
-         * 1.3 - Park > sneak > change clothes > enter Labs
-         * 1.4 - Enter labs > find animals > fight scientists
-         * 1.5 - Cutscene: Animals break free
-         * 1.6 - Evacuate labs > fake objective > die > day completed 
-         */
 
         public void Day1Stage1()
         {
             /* Setup world & player */
-            Common.missionFade("out", 2000);
+            //Common.missionFade("out", 2000);
             resetWorld(); // Make sure we've got a clean world first
             currentDay = 1; // Set day
             currentStage = 1; // Set stage
+            Wait(200);
             Common.setWorld(01, 00, 00, true, "CLEAR"); // KEY: Time of day, pause clock, weather type
-            Function.Call(Hash.REMOVE_ALL_PED_WEAPONS, Game.Player.Character, true); // Remove all weapon
+            //Function.Call(Hash.REMOVE_ALL_PED_WEAPONS, Game.Player.Character, true); // Remove all weapon
             Common.givePlayerWeapon(WeaponHash.StunGun, 20);
             Common.givePlayerWeapon(WeaponHash.Crowbar, 1);
 
@@ -174,40 +182,29 @@ namespace _28_Frags_Later
             trashTruck = Common.SpawnVehicle(VehicleHash.Trash, new Vector3(coords[0], coords[1], coords[2]), coords[3]); // Create and spawn the trashTruck
             Function.Call(Hash.SET_VEHICLE_DOORS_LOCKED, trashTruck, 2); // Lock the trashTruck
             Wait(200);
-            //Common.SpawnVehicleBlip(trashTruck, BlipSprite.GarbageTruck, 3, true); // Give trashTruck a blue Garbage truck icon on minimap
-
-            
-            junkYard = Common.SpawnBlip(2399.415f, 3086.904f, 47.629f, BlipSprite.BigCircle, 3, true);
-            
-
-
-            //Function.Call(Hash.SETTIMERA, 0); // Set the timer to 0, start counting up.
-
-            
-
-            // TODO : Spawn trashTruck randomly in 1 of 3 places around yard
-            // TODO : Lock trashTruck if player gets there within 1.5 minutes - SET_VEHICLE_DOORS_LOCKED & SETTIMERA(0)
-            // TODO : Spawn keys at set location if trashTruck is locked
-            // TODO : Unlock trashTruck if keys are found
+            junkYard = Common.SpawnBlip(2399.415f, 3086.904f, 47.629f, BlipSprite.BigCircle, 21, true);
 
             /* Start this stage */
-            Common.missionFade("in", 2000);
+            //Common.missionFade("in", 2000);
             UI.ShowSubtitle("Steal the ~b~Trash truck~s~ from the compound.", 15000); // Let player know the current objective
+            UI.Notify("Day[" + currentDay + "] Stage[" + currentStage + "]", true);
         }
         public void Day1Stage2()
         {
             currentDay = 1;
             currentStage = 2;
-            /* ---------- UNDER TESTING ----------*/
-            //Function.Call(Hash.REMOVE_BLIP, junkYard);
-            /* ----------- END TESTING -----------*/
-            Common.SpawnVehicleBlip(trashTruck, BlipSprite.GarbageTruck, 3, false);
+            junkYard.Remove();
             UI.ShowSubtitle("~b~Trash truck~s~ locked. Find the key.", 15000); // Let player know the current objective
+            UI.Notify("Day[" + currentDay + "] Stage[" + currentStage + "]", true);
+            Wait(200);
+            Common.SpawnVehicleBlip(trashTruck, BlipSprite.GarbageTruck, 21, false); // Give trashTruck a blue Garbage truck icon on minimap
 
-            guardDog1 = Common.SpawnPed(PedHash.Rottweiler, trashTruck.GetOffsetInWorldCoords(new Vector3(0.120f, 0.120f, 0.10f)), false); // Spawn guard dog 1
-            Common.SpawnPedBlip(guardDog1, BlipSprite.Standard, 1, false);
-            //guardDog1.Task.StandStill(1);
+            /* -------- UNDER TESTING --------*/
+            guardDog1 = Common.SpawnPed(PedHash.Rottweiler, new Vector3(2399.415f, 3086.904f, 47.629f), false); // Spawn guard dog 1
+            //Common.SpawnPedBlip(guardDog1, BlipSprite.Standard, 1, false);
+            //guardDog1.Task.StandStill(0);
             guardDog1.Task.FightAgainst(player);
+            /* -------- END OF TESTNG ---------*/
         }
         public void Day1Stage3()
         {
@@ -215,40 +212,50 @@ namespace _28_Frags_Later
             currentStage = 3;
             trashTruck.CurrentBlip.Remove();
             UI.ShowSubtitle("Make your way to the ~b~Humane Research Facility~s~.", 15000); // Let player know the current objective
+            UI.Notify("Day[" + currentDay + "] Stage[" + currentStage + "]", true);
         }
 
         void onTick(object sender, EventArgs e) // Ticks are on going (kind of like milliseconds). Therfore these rules loop over and over during the game.
         {
             /* Global tick options */
             Common.wantedLevel(neverWanted); // If neverWanted is set to 'true', the police will leave the player alone
-            var playerArrested = Function.Call<bool>(Hash.IS_PLAYER_BEING_ARRESTED, player, 0);
-            if (player.IsDead.Equals(true) || playerArrested) // reset if player is dead or arrested
-                resetWorld();
 
-            /* Day 1 Stage 1 ticks */
-            var trashTruckDestroyed = Function.Call<bool>(Hash.IS_ENTITY_DEAD, trashTruck);
-            if (trashTruckDestroyed && currentDay == 1 && currentStage <= 2) // If trashTruck is destroyed, Mission over
-                resetWorld(); // THIS NEEDS TO END MISSION
-            // TODO : Mission End function
+            /* Day 1 */
+            if (currentDay == 1)
+            {
+                /* Stage 1 */
+                var trashTruckFound = Function.Call<bool>(Hash.IS_PED_TRYING_TO_ENTER_A_LOCKED_VEHICLE, Game.Player.Character);
+                if (trashTruckFound && currentStage == 1)
+                    Day1Stage2();
+                /* Stage 2 */
+                var trashTruckDestroyed = Function.Call<bool>(Hash.IS_ENTITY_DEAD, trashTruck); // is entity dead?
+                if (trashTruckDestroyed && currentStage <= 2) // If trashTruck is destroyed, Mission over
+                {
+                    UI.ShowSubtitle("The trash truck has been ~r~destroyed~s~.", 15000);
+                    resetWorld();
+                }
+                if (player.CurrentVehicle == trashTruck && currentStage == 2)
+                    Day1Stage3();
+                /* Stage 3 */
+                if (player.CurrentVehicle != trashTruck && currentStage == 3) // Has player left the trashTruck?
+                {
+                    currentStage = 2; // go back to stage 2 because player has left truck
+                    Common.SpawnVehicleBlip(trashTruck, BlipSprite.GarbageTruck, 21, true);
+                    UI.ShowSubtitle("Get back into the ~b~Trash truck~s~.", 15000); // Let player know the current objective
+                    if (debugMode)
+                        UI.Notify("Day[" + currentDay + "] Stage[" + currentStage + "]", true);
+                }
+                
+            }
 
-            var trashTruckFound = Function.Call<bool>(Hash.IS_PED_TRYING_TO_ENTER_A_LOCKED_VEHICLE, player);
-            if (trashTruckFound)
-                UI.ShowSubtitle("~b~Trash truck~s~ locked. Find the key.", 15000); // Let player know the current objective
-            // Day1Stage2();
 
+            /*
             var isDogDead = Function.Call<bool>(Hash.IS_PED_DEAD_OR_DYING, guardDog1, true);
             if (isDogDead && currentDay == 1)
                 guardDog1.CurrentBlip.Remove();
+            */
+
             
-            if (player.CurrentVehicle != trashTruck && currentDay == 1 && currentStage == 2) // Has player left the trashTruck?
-            {
-                currentStage = 1;
-                Common.SpawnVehicleBlip(trashTruck, BlipSprite.GarbageTruck, 3, true);
-                UI.ShowSubtitle("Get back into the ~b~Trash truck~s~.", 15000); // Let player know the current objective
-            }
-            /* Day 1 Stage 3 ticks */
-            if (player.CurrentVehicle == trashTruck && currentDay == 1 && currentStage == 2)
-                Day1Stage3();
         }
     }
 }
