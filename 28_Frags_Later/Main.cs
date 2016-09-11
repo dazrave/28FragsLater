@@ -172,16 +172,17 @@ namespace _28_Frags_Later
                 var trashTruckFound = Function.Call<bool>(Hash.IS_PED_TRYING_TO_ENTER_A_LOCKED_VEHICLE, Game.Player.Character);
                 if (trashTruckFound && currentStage == 1)
                     Day1.Day1Stage2();
-                // Have the trashTruck keys been found?
-                var trashTruckKeysFound = Function.Call<bool>(Hash.GET_ENTITY_PLAYER_IS_FREE_AIMING_AT, Game.Player.Character, Day1.trashTruckKeys);
-                if (trashTruckKeysFound)
-                    Day1.Day1Stage3();
+                // Have the trashTruckKeys been found?
+                var trashTruckKeysExists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, Day1.trashTruckKeys);
+                if (trashTruckKeysExists && currentStage == 2)
+                    if (Game.Player.Character.IsNearEntity(Day1.trashTruckKeys, new Vector3(2, 2, 2)))
+                        Day1.Day1Stage3();
                 // Has the trashTruck been destroyed
                 var trashTruckDestroyed = Function.Call<bool>(Hash.IS_ENTITY_DEAD, Day1.trashTruck);
                 if (trashTruckDestroyed && currentStage <= 2)
                     missionFailed("The ~b~Trash truck~s~ has been ~r~destroyed~s~!", currentDay, 0);
                 // Is player in trashTruck
-                if (player.CurrentVehicle == Day1.trashTruck && currentStage == 2)
+                if (player.CurrentVehicle == Day1.trashTruck && currentStage == 3)
                     Day1.Day1Stage4();
                 // Has player left trashTruck
                 if (player.CurrentVehicle != Day1.trashTruck && currentStage == 4)

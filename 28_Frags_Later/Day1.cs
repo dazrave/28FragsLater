@@ -129,17 +129,16 @@ namespace _28_Frags_Later
             var trashTruckKeysExists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, trashTruckKeys);
             if (trashTruckKeysExists)
                 trashTruckKeys.Delete();
-            // Spawn the guardDog2
-            /* -------- UNDER TESTING --------*/
             // Choose spawn point at random
             Random rndGuardDog = new Random();
             int guardDoglocNum = rndGuardDog.Next(0, guardDogLocations.Count);
             float[] guardDogCoords = guardDogLocations[guardDoglocNum];
-            /* -------- END OF TESTNG ---------*/
+            // Spawn the guardDog2
             guardDog2 = Common.SpawnPed(PedHash.Rottweiler, new Vector3(guardDogCoords[0], guardDogCoords[1], guardDogCoords[2]), false);
             var playerCoords = Function.Call<Vector3>(Hash.GET_ENTITY_COORDS, Game.Player.Character, true);
             guardDog2.Task.RunTo(playerCoords);
             guardDog2.Task.FightAgainst(Game.Player.Character);
+            UI.ShowSubtitle("~y~keys~w~ found, get to the ~b~Trash truck~s~.", 15000);
             Common.runDebug();
         }
         // Start Day 1 Stage 4
