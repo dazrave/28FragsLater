@@ -35,7 +35,9 @@ namespace _28_Frags_Later
         public static Ped guardDog1;
         public static bool guardDog1Spawned;
         public static Ped guardDog2;
+        public static bool guardDog2Spawned;
         public static Blip junkYard;
+        public static Blip humaneLabs;
 
         // Start Day 1 Stage 1
         public static void Day1Stage1()
@@ -129,16 +131,25 @@ namespace _28_Frags_Later
             var trashTruckKeysExists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, trashTruckKeys);
             if (trashTruckKeysExists)
                 trashTruckKeys.Delete();
-            // Choose spawn point at random
-            Random rndGuardDog = new Random();
-            int guardDoglocNum = rndGuardDog.Next(0, guardDogLocations.Count);
-            float[] guardDogCoords = guardDogLocations[guardDoglocNum];
-            // Spawn the guardDog2
-            guardDog2 = Common.SpawnPed(PedHash.Rottweiler, new Vector3(guardDogCoords[0], guardDogCoords[1], guardDogCoords[2]), false);
-            var playerCoords = Function.Call<Vector3>(Hash.GET_ENTITY_COORDS, Game.Player.Character, true);
-            guardDog2.Task.RunTo(playerCoords);
-            guardDog2.Task.FightAgainst(Game.Player.Character);
-            UI.ShowSubtitle("~y~keys~w~ found, get to the ~b~Trash truck~s~.", 15000);
+            // Delete humane labs blip if exists
+            var humaneLabsExists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, humaneLabs);
+            if (humaneLabsExists)
+                humaneLabs.Remove();
+            // if guardDog2 has never spawned
+            if (!guardDog2Spawned)
+            {
+                // Choose spawn point at random
+                Random rndGuardDog = new Random();
+                int guardDoglocNum = rndGuardDog.Next(0, guardDogLocations.Count);
+                float[] guardDogCoords = guardDogLocations[guardDoglocNum];
+                // Spawn the guardDog2
+                guardDog2 = Common.SpawnPed(PedHash.Rottweiler, new Vector3(guardDogCoords[0], guardDogCoords[1], guardDogCoords[2]), false);
+                guardDog2Spawned = true;
+                var playerCoords = Function.Call<Vector3>(Hash.GET_ENTITY_COORDS, Game.Player.Character, true);
+                guardDog2.Task.RunTo(playerCoords);
+                guardDog2.Task.FightAgainst(Game.Player.Character);
+                UI.ShowSubtitle("~y~keys~w~ found, get to the ~b~Trash truck~s~.", 15000);
+            }
             Common.runDebug();
         }
         // Start Day 1 Stage 4
@@ -149,7 +160,9 @@ namespace _28_Frags_Later
             Main.currentStage = 4;
             // Remove trashTruck blip
             trashTruck.CurrentBlip.Remove();
-            // TODO : Spawn humaneLabs blip
+
+            // Spawn a blip at HumaneLabs
+            humaneLabs = Common.SpawnBlip(3370.720f, 3695.381f, 37.211f, BlipSprite.BigCircle, 21, true);
 
             // Display mission objective
             UI.ShowSubtitle("Make your way to the ~b~Humane Research Facility~s~.", 15000);

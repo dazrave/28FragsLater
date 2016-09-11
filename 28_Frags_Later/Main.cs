@@ -175,7 +175,7 @@ namespace _28_Frags_Later
                 // Have the trashTruckKeys been found?
                 var trashTruckKeysExists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, Day1.trashTruckKeys);
                 if (trashTruckKeysExists && currentStage == 2)
-                    if (Game.Player.Character.IsNearEntity(Day1.trashTruckKeys, new Vector3(2, 2, 2)))
+                    if (Game.Player.Character.IsNearEntity(Day1.trashTruckKeys, new Vector3(1, 1, 1)))
                         Day1.Day1Stage3();
                 // Has the trashTruck been destroyed
                 var trashTruckDestroyed = Function.Call<bool>(Hash.IS_ENTITY_DEAD, Day1.trashTruck);
@@ -195,10 +195,6 @@ namespace _28_Frags_Later
                     UI.ShowSubtitle("Get back into the ~b~Trash truck~s~.", 15000);
                     Common.runDebug();
                 }
-                // Check if guardDog1 is dead and remove blip
-                //var isDogDead = Function.Call<bool>(Hash.IS_ENTITY_DEAD, Day1.guardDog1, true);
-                //if (isDogDead && Day1.guardDog1Spawned)
-                //    Day1.Day1Stage3();
             }
         }
     }
