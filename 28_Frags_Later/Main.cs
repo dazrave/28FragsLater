@@ -32,6 +32,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 using GTA;
 using GTA.Native;
@@ -53,10 +54,16 @@ namespace _28_Frags_Later
         /* Setup */
         public static Ped player = Game.Player.Character;
         public static bool debugMode;
+        public static bool debugBoolMessage;
+        public static string debugStringMessage;
         public static int currentDay;
         public static int currentStage;
         public static int lastDay;
         public static int lastStage;
+        public static string modVersion = "0.3";
+        public static int iCurrentGameTime;
+        public static int iElapsedGameTime;
+        public static int iLastGameTime;
 
         public Main()
         {
@@ -67,6 +74,10 @@ namespace _28_Frags_Later
             // Link in ticks and key press tracking
             Tick += onTick;
             KeyDown += onKeyDown;
+            //
+            DisableControls();
+
+            UI.Notify("~r~28 Frags Later~w~ v" + modVersion + "", true);
         }
 
         // On 'key pressed down' events
@@ -89,6 +100,23 @@ namespace _28_Frags_Later
                 // Trigger a hard reset with F12
                 if (e.KeyCode == Keys.F12)
                     Common.hardReset();
+                // Trigger debug message
+                if (e.KeyCode == Keys.End)
+                    Common.runDebug();
+            } 
+        }
+
+        // Disable or enable as required, gives access to all function keys without passing control to the game afterwards. F4, F11 and F12 seem to be available already
+        private void DisableControls()
+        {
+            // Blocks F9 and F10 from being passed to the game.
+            Function.Call(Hash.DISABLE_CONTROL_ACTION, 2, "F9");
+            Function.Call(Hash.DISABLE_CONTROL_ACTION, 2, "F10");
+            if (debugMode)
+            {
+                Function.Call(Hash.DISABLE_CONTROL_ACTION, 2, "F11");
+                Function.Call(Hash.DISABLE_CONTROL_ACTION, 2, "F12");
+                Function.Call(Hash.DISABLE_CONTROL_ACTION, 2, "END");
             } 
         }
 
@@ -98,12 +126,13 @@ namespace _28_Frags_Later
             debugMode = !debugMode;
             Wait(100);
             // Set info and trigger notification
-            var debugModeResult = debugMode ? "ON" : "OFF";
-            UI.Notify("Debug mode " + debugModeResult, true);
+            var debugModeResult = debugMode ? "Turned On" : "Switched Off";
+            UI.Notify("~y~DEBUG MODE~w~\n" + debugModeResult, true);
             if (debugMode)
             {
                 Common.givePlayerWeapon(WeaponHash.Pistol, 500);
                 Common.givePlayerWeapon(WeaponHash.Molotov, 500);
+                Common.givePlayerWeapon(WeaponHash.Unarmed, 1);
             }
             
         }
@@ -129,6 +158,10 @@ namespace _28_Frags_Later
         // Start tick process
         public static void onTick(object sender, EventArgs e) 
         {
+            iCurrentGameTime = Game.GameTime;
+            iElapsedGameTime = iCurrentGameTime - iLastGameTime;
+            iLastGameTime = iCurrentGameTime;
+
             // Check wantedLevel settings
             Common.wantedLevel(Common.neverWanted);
 
@@ -139,30 +172,32 @@ namespace _28_Frags_Later
                 var trashTruckFound = Function.Call<bool>(Hash.IS_PED_TRYING_TO_ENTER_A_LOCKED_VEHICLE, Game.Player.Character);
                 if (trashTruckFound && currentStage == 1)
                     Day1.Day1Stage2();
+                // Have the trashTruck keys been found?
+                var trashTruckKeysFound = Function.Call<bool>(Hash.GET_ENTITY_PLAYER_IS_FREE_AIMING_AT, Game.Player.Character, Day1.trashTruckKeys);
+                if (trashTruckKeysFound)
+                    Day1.Day1Stage3();
                 // Has the trashTruck been destroyed
                 var trashTruckDestroyed = Function.Call<bool>(Hash.IS_ENTITY_DEAD, Day1.trashTruck);
                 if (trashTruckDestroyed && currentStage <= 2)
                     missionFailed("The ~b~Trash truck~s~ has been ~r~destroyed~s~!", currentDay, 0);
                 // Is player in trashTruck
                 if (player.CurrentVehicle == Day1.trashTruck && currentStage == 2)
-                    Day1.Day1Stage3();
+                    Day1.Day1Stage4();
                 // Has player left trashTruck
-                if (player.CurrentVehicle != Day1.trashTruck && currentStage == 3)
+                if (player.CurrentVehicle != Day1.trashTruck && currentStage == 4)
                 {
-                    // Reset to stage 2
-                    currentStage = 2;
+                    // Reset to stage 3
+                    currentStage = 3;
                     // Spawn trashTruck blip
                     Common.SpawnVehicleBlip(Day1.trashTruck, BlipSprite.GarbageTruck, 21, true);
                     // Display new mission objective
                     UI.ShowSubtitle("Get back into the ~b~Trash truck~s~.", 15000);
-                    if (debugMode)
-                        UI.Notify("Day[" + currentDay + "] Stage[" + currentStage + "]", true);
+                    Common.runDebug();
                 }
-                /* -------- UNDER TESTING ---------*/
-                var isDogDead = Function.Call<bool>(Hash.IS_ENTITY_DEAD, Day1.guardDog1, true);
-                //if (isDogDead)
-                    // TODO : If guardDog1 dies, spawn guardDog2 (random location) and head straight for player
-                /* -------- END OF TESTNG ---------*/
+                // Check if guardDog1 is dead and remove blip
+                //var isDogDead = Function.Call<bool>(Hash.IS_ENTITY_DEAD, Day1.guardDog1, true);
+                //if (isDogDead && Day1.guardDog1Spawned)
+                //    Day1.Day1Stage3();
             }
         }
     }

@@ -17,6 +17,8 @@ namespace _28_Frags_Later
         /* Global */
         public static bool noPolice;
         public static bool neverWanted;
+        public static bool noPeds;
+        public static bool noBlips;
 
         // Spawn a ped
         public static Ped SpawnPed(Model pedname, Vector3 location, bool friendly)
@@ -27,6 +29,21 @@ namespace _28_Frags_Later
             if (!friendly)
                 ped.Task.FightAgainst(Game.Player.Character);
             return ped;
+        }
+        // Spawn blip for Prop
+        public static Blip SpawnPropBlip(Prop propName, BlipSprite sprite, int blipColour, bool showroute)
+        {
+            // Add blip to vehicle
+            propName.AddBlip();
+            // Give blip an icon
+            propName.CurrentBlip.Sprite = sprite;
+            // Set GPS route for blip on/off
+            propName.CurrentBlip.ShowRoute = showroute;
+            // Set colour of blip
+            Function.Call(Hash.SET_BLIP_COLOUR, propName.CurrentBlip, blipColour);
+            // Set colour of GPS route
+            Function.Call(Hash.SET_BLIP_ROUTE_COLOUR, propName.CurrentBlip, blipColour);
+            return propName.CurrentBlip;
         }
         // Spawn a location blip
         public static Blip SpawnBlip(float loc1, float loc2, float loc3, BlipSprite sprite, int blipColour, bool showroute)
@@ -107,6 +124,11 @@ namespace _28_Frags_Later
         {
             Game.Player.Character.Weapons.Give(weaponHash, ammo, true, true);
         }
+        public static void removeAllPeds()
+        {
+            // Detect and delete all peds
+            
+        }
         // Run a hard reset of the world
         public static void hardReset()
         {
@@ -121,12 +143,15 @@ namespace _28_Frags_Later
             // Detect and delete all active blips
             foreach (Blip b in World.GetActiveBlips())
                 b.Remove();
+            // Detect and delete all props
+            //foreach (Prop o in World.GetAllProps())
+            //    o.Delete();
             //Wait(200);
             // Reset Day and Stage values (do this last)
             Main.currentDay = 0;
             Main.currentStage = 0;
             if (Main.debugMode)
-                UI.Notify("Hard Reset", true);
+                UI.Notify("~y~DEBUG MODE~w~\nHard Reset", true);
         }
 
         // Run a soft reset of the world
@@ -135,6 +160,7 @@ namespace _28_Frags_Later
             // Global reset elements
             neverWanted = false;
             noPolice = false;
+            noBlips = false;
             // Reset to midday, make sure the clock isn't paused and clear the weather
             Common.setWorld(12, 00, 00, false, "CLEAR");
             World.SetBlackout(false);
@@ -147,6 +173,10 @@ namespace _28_Frags_Later
                 var trashTruckExists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, Day1.trashTruck);
                 if (trashTruckExists)
                     Day1.trashTruck.Delete();
+                // Delete keys
+                var trashTruckKeysExists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, Day1.trashTruckKeys);
+                if (trashTruckKeysExists)
+                    Day1.trashTruckKeys.Delete();
                 // Day1.startBike vehicle
                 var startBikeExists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, Day1.startBike);
                 if (startBikeExists)
@@ -156,13 +186,25 @@ namespace _28_Frags_Later
                 if (junkYardExists)
                     Day1.junkYard.Remove();
                 /* -------- UNDER TESTING --------*/
-                /*var guardDog1Exists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, guardDog1);
+                var guardDog1Exists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, Day1.guardDog1);
                 if (guardDog1Exists)
-                    guardDog1.Delete();*/
+                    Day1.guardDog1.Delete();
+                var guardDog2Exists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, Day1.guardDog2);
+                if (guardDog2Exists)
+                    Day1.guardDog2.Delete();
                 /* -------- END OF TESTNG ---------*/
             }
             if (Main.debugMode)
-                UI.Notify("Soft Reset", true);
+                UI.Notify("~y~DEBUG MODE~w~\nSoft Reset", true);
+        }
+        // Debug mode script
+        public static void runDebug()
+        {
+            if (Main.debugMode)
+            {
+                UI.Notify("~y~DEBUG MODE~w~\nDay: " + Main.currentDay + ", Stage: " + Main.currentStage + "", true);
+                //UI.Notify("~y~DEBUG~w~ isDogDead: " + Main.debugBoolMessage, true);
+            }
         }
     }
 }
