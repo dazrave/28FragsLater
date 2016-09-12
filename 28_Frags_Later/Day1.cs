@@ -120,8 +120,6 @@ namespace _28_Frags_Later
         {
             Main.currentDay = 1;
             Main.currentStage = 3;
-            // Set guardDog1 as dead (so script doesn't rerun!)
-            guardDog1Spawned = false;
             // Unlock the trashTruck
             Function.Call(Hash.SET_VEHICLE_DOORS_LOCKED, trashTruck, 0);
             // Delete keys
@@ -129,7 +127,7 @@ namespace _28_Frags_Later
             if (trashTruckKeysExists)
                 trashTruckKeys.Delete();
             // Delete humane labs blip if exists
-            var humaneLabsExists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, humaneLabs);
+            var humaneLabsExists = Function.Call<bool>(Hash.DOES_BLIP_EXIST, humaneLabs);
             if (humaneLabsExists)
                 humaneLabs.Remove();
             // if guardDog2 has never spawned
