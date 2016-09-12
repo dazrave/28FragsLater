@@ -152,13 +152,35 @@ namespace _28_Frags_Later
             // Update Day and Stage
             Main.currentDay = 1;
             Main.currentStage = 4;
+
+            /* ------------------------------------------ TESTING --------------------- */
             // Remove trashTruck blip
-            trashTruck.CurrentBlip.Remove();
+            var trashTruckBlipExists = Function.Call<bool>(Hash.DOES_BLIP_EXIST, trashTruck.CurrentBlip);
+            if (trashTruckBlipExists)
+                trashTruck.CurrentBlip.Remove();
+            /* ------------------------------------------ TESTING END --------------------- */
+
             // Spawn a blip at HumaneLabs
             humaneLabs = Common.SpawnBlip(3370.720f, 3695.381f, 37.211f, BlipSprite.BigCircle, 21, true);
 
+            // Tranisition weather to be foggy
+            Function.Call(Hash._SET_WEATHER_TYPE_OVER_TIME, "FOGGY", 50000);
+
             // TODO : Remove default guard from checkpoint
-            // TODO : Spawn new guard at checkpoint
+
+            /* ------------------------------------------ TESTING --------------------- */
+            // Spawn security
+            var gateGuard1 = World.CreatePed(PedHash.Security01SMM, new Vector3(3370.720f, 3695.381f, 37.211f));
+            // Give gateGuard1 a gun that's holstered
+            gateGuard1.Weapons.Give(WeaponHash.CombatPistol, 500, false, true);
+            // Give gateGuard1 a clipboard
+            Function.Call(Hash.TASK_START_SCENARIO_IN_PLACE, gateGuard1, "WORLD_HUMAN_CLIPBOARD", 0, true);
+
+            // WORLD_HUMAN_SECURITY_SHINE_TORCH
+            // WORLD_HUMAN_GUARD_PATROL
+            // WORLD_HUMAN_GUARD_STAND
+
+            /* ------------------------------------------ TESTING END --------------------- */
 
             // Display mission objective
             UI.ShowSubtitle("Drive to the ~b~Humane Research Facility~s~.", 15000);
@@ -171,25 +193,12 @@ namespace _28_Frags_Later
             Main.currentDay = 1;
             Main.currentStage = 5;
             // Delete humane labs blip if exists
-            var humaneLabsExists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, humaneLabs);
+            var humaneLabsExists = Function.Call<bool>(Hash.DOES_BLIP_EXIST, humaneLabs);
             if (humaneLabsExists)
                 humaneLabs.Remove();
 
             // TODO : Add parking hotspot + blip
             // TODO : Make guard wave truck through checkpoint?
-
-            // Spawn security
-            var gateGuard1 = World.CreatePed(PedHash.Security01SMM, Game.Player.Character.GetOffsetInWorldCoords(new Vector3(0, 5, 0)));
-            // Set some properties
-            gateGuard1.Weapons.Give(WeaponHash.CombatPistol, 500, false, true);
-
-            
-
-
-            /* ------------------------------------------ TESTING --------------------- */
-            // Tranisition weather to be foggy
-            Function.Call(Hash._SET_WEATHER_TYPE_OVER_TIME, "FOOGY", 20000);
-            /* ------------------------------------------ TESTING --------------------- */
 
             // Display mission objective
             UI.ShowSubtitle("Park the ~b~Trash truck~w~ in the service area", 15000);

@@ -44,6 +44,7 @@ namespace _28_Frags_Later
             dog.Task.RunTo(playerCoords);
             dog.Task.FightAgainst(Game.Player.Character);
             Function.Call(Hash.CAN_KNOCK_PED_OFF_VEHICLE, dog);
+            Function.Call(Hash.SET_ENTITY_PROOFS, dog, false, false, false, true, true, false, false, false);
 
             return dog;
         }
