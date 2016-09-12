@@ -140,7 +140,7 @@ namespace _28_Frags_Later
         public static void startDay()
         {
             // Run the Day 1 script
-            Day3.Day3Stage1();
+            Day1.Day1Stage1();
             // TODO : Track and start the next uncompleted day in the series!
         }
 
@@ -193,7 +193,7 @@ namespace _28_Frags_Later
                 if (player.CurrentVehicle != Day1.trashTruck && currentStage == 4)
                 {
                     // Reset to stage 3
-                    currentStage = 3;
+                    Day1.Day1Stage3();
                     // Spawn trashTruck blip
                     Common.SpawnVehicleBlip(Day1.trashTruck, BlipSprite.GarbageTruck, 21, true);
                     // Display new mission objective

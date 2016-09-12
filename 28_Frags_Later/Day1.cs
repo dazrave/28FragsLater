@@ -122,10 +122,12 @@ namespace _28_Frags_Later
             var trashTruckKeysExists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, trashTruckKeys);
             if (trashTruckKeysExists)
                 trashTruckKeys.Delete();
+            Main.Wait(200);
             // Delete humane labs blip if exists
             var humaneLabsExists = Function.Call<bool>(Hash.DOES_BLIP_EXIST, humaneLabs);
             if (humaneLabsExists)
                 humaneLabs.Remove();
+            Main.Wait(200);
             // if guardDog2 has never spawned
             if (!guardDog2Spawned)
             {
