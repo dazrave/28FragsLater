@@ -30,6 +30,23 @@ namespace _28_Frags_Later
                 ped.Task.FightAgainst(Game.Player.Character);
             return ped;
         }
+        // Spawn gaurd dog
+        public static Ped SpawnGuardDog()
+        {
+            // Choose spawn point at random
+            Random rndGuardDog = new Random();
+            int guardDoglocNum = rndGuardDog.Next(0, Day1.guardDogLocations.Count);
+            float[] guardDogCoords = Day1.guardDogLocations[guardDoglocNum];
+
+            // Spawn the guardDog2
+            Ped dog = SpawnPed(PedHash.Rottweiler, new Vector3(guardDogCoords[0], guardDogCoords[1], guardDogCoords[2]), false);
+            var playerCoords = Function.Call<Vector3>(Hash.GET_ENTITY_COORDS, Game.Player.Character, true);
+            dog.Task.RunTo(playerCoords);
+            dog.Task.FightAgainst(Game.Player.Character);
+            Function.Call(Hash.CAN_KNOCK_PED_OFF_VEHICLE, dog);
+
+            return dog;
+        }
         // Spawn blip for Prop
         public static Blip SpawnPropBlip(Prop propName, BlipSprite sprite, int blipColour, bool showroute)
         {
@@ -146,7 +163,6 @@ namespace _28_Frags_Later
             // Detect and delete all props
             //foreach (Prop o in World.GetAllProps())
             //    o.Delete();
-            //Wait(200);
             // Reset Day and Stage values (do this last)
             Main.currentDay = 0;
             Main.currentStage = 0;
@@ -185,14 +201,12 @@ namespace _28_Frags_Later
                 var junkYardExists = Function.Call<bool>(Hash.DOES_BLIP_EXIST, Day1.junkYard);
                 if (junkYardExists)
                     Day1.junkYard.Remove();
-                /* -------- UNDER TESTING --------*/
                 var guardDog1Exists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, Day1.guardDog1);
                 if (guardDog1Exists)
                     Day1.guardDog1.Delete();
                 var guardDog2Exists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, Day1.guardDog2);
                 if (guardDog2Exists)
                     Day1.guardDog2.Delete();
-                /* -------- END OF TESTNG ---------*/
             }
             if (Main.debugMode)
                 UI.Notify("~y~DEBUG MODE~w~\nSoft Reset", true);

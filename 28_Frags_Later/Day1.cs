@@ -17,6 +17,7 @@ namespace _28_Frags_Later
         /* Day 1 items */
         public static Vehicle trashTruck;
         public static Prop trashTruckKeys;
+        public static int trashTruckLocationID;
         public static Vehicle startBike;
         // Set all posible spawn locations for guardDog2
         public static List<float[]> guardDogLocations = new List<float[]>
@@ -69,9 +70,9 @@ namespace _28_Frags_Later
             // Set all posible spawn locations for traskTruck
             List<float[]> trashTruckLocations = new List<float[]>
             {
-                new[] {2348.587f, 3132.766f, 48.209f, 259.197f}, // Inside shed
-                new[] {2408.979f, 3035.146f, 47.623f, 358.612f}, // Near planes
-                new[] {2350.768f, 3037.305f, 47.624f, 2.531f} // Next to crane
+                new[] {2348.587f, 3132.766f, 48.209f, 259.197f, 1}, // Inside shed
+                new[] {2408.979f, 3035.146f, 47.623f, 358.612f, 2}, // Near planes
+                new[] {2350.768f, 3037.305f, 47.624f, 2.531f, 3} // Next to crane
             };
             // Choose spawn point at random
             Random rndTrashTuck = new Random();
@@ -79,14 +80,14 @@ namespace _28_Frags_Later
             float[] coords = trashTruckLocations[trashTrucklocNum];
             // Spawn trashTruck at chosen location
             trashTruck = Common.SpawnVehicle(VehicleHash.Trash, new Vector3(coords[0], coords[1], coords[2]), coords[3]);
+            // Set location ID
+            trashTruckLocationID = (int) coords[4];
             // Lock trashTruck's doors
             Function.Call(Hash.SET_VEHICLE_DOORS_LOCKED, trashTruck, 2);
-
             // Spawn a blip at junkYard
             junkYard = Common.SpawnBlip(2399.415f, 3086.904f, 47.629f, BlipSprite.BigCircle, 21, true);
-
             // Display mission objective
-            UI.ShowSubtitle("Steal the ~b~Trash truck~s~ from the compound.", 15000);
+            UI.ShowSubtitle("Steal the ~b~Trash truck~s~ from the ~b~Junk Yard~s~.", 15000);
             Common.runDebug();
         }
         // Start Day 1 Stage 2
@@ -103,17 +104,13 @@ namespace _28_Frags_Later
             trashTruckKeys = World.CreateProp(-331172978, new Vector3(2351.69f, 3118.53f, 48.19f), false, false);
             // Set blip for keys
             Common.SpawnPropBlip(trashTruckKeys, BlipSprite.Key, 28, false);
-            // Choose spawn point at random
-            Random rndGuardDog = new Random();
-            int guardDoglocNum = rndGuardDog.Next(0, guardDogLocations.Count);
-            float[] guardDogCoords = guardDogLocations[guardDoglocNum];
-            // Spawn the guardDog1
-            guardDog1 = Common.SpawnPed(PedHash.Rottweiler, new Vector3(guardDogCoords[0], guardDogCoords[1], guardDogCoords[2]), false);
-            Function.Call(Hash.REGISTER_TARGET, guardDog1, Game.Player.Character);
-            // Send the guardDog to attack player
-            var playerCoords = Function.Call<Vector3>(Hash.GET_ENTITY_COORDS, Game.Player.Character, true);
-            guardDog1.Task.RunTo(playerCoords);
-            guardDog1.Task.FightAgainst(Game.Player.Character);
+
+            /* ------------------------------------------ TESTING --------------------- */
+            // Spawn and setup guard dog 1
+            guardDog1 = Common.SpawnGuardDog();
+            /* ------------------------------------------ TESTING --------------------- */
+
+            // Prevent spawning an additional guard dog
             guardDog1Spawned = true;
             // Display mission objective
             UI.ShowSubtitle("~b~Trash truck~s~ locked. Get the ~y~keys~w~.", 15000);
@@ -138,16 +135,13 @@ namespace _28_Frags_Later
             // if guardDog2 has never spawned
             if (!guardDog2Spawned)
             {
-                // Choose spawn point at random
-                Random rndGuardDog = new Random();
-                int guardDoglocNum = rndGuardDog.Next(0, guardDogLocations.Count);
-                float[] guardDogCoords = guardDogLocations[guardDoglocNum];
-                // Spawn the guardDog2
-                guardDog2 = Common.SpawnPed(PedHash.Rottweiler, new Vector3(guardDogCoords[0], guardDogCoords[1], guardDogCoords[2]), false);
+                /* ------------------------------------------ TESTING --------------------- */
+                // Spawn and setup guard dog 2
+                guardDog2 = Common.SpawnGuardDog();
+                /* ------------------------------------------ TESTING --------------------- */
+
+                // Prevent spawning an additional guard dog
                 guardDog2Spawned = true;
-                var playerCoords = Function.Call<Vector3>(Hash.GET_ENTITY_COORDS, Game.Player.Character, true);
-                guardDog2.Task.RunTo(playerCoords);
-                guardDog2.Task.FightAgainst(Game.Player.Character);
                 UI.ShowSubtitle("~y~keys~w~ found, get to the ~b~Trash truck~s~.", 15000);
             }
             Common.runDebug();
@@ -160,12 +154,45 @@ namespace _28_Frags_Later
             Main.currentStage = 4;
             // Remove trashTruck blip
             trashTruck.CurrentBlip.Remove();
-
             // Spawn a blip at HumaneLabs
             humaneLabs = Common.SpawnBlip(3370.720f, 3695.381f, 37.211f, BlipSprite.BigCircle, 21, true);
 
+            // TODO : Remove default guard from checkpoint
+            // TODO : Spawn new guard at checkpoint
+
             // Display mission objective
-            UI.ShowSubtitle("Make your way to the ~b~Humane Research Facility~s~.", 15000);
+            UI.ShowSubtitle("Drive to the ~b~Humane Research Facility~s~.", 15000);
+            Common.runDebug();
+        }
+        // Start Day 1 Stage 5
+        public static void Day1Stage5()
+        {
+            // Update Day and Stage
+            Main.currentDay = 1;
+            Main.currentStage = 5;
+            // Delete humane labs blip if exists
+            var humaneLabsExists = Function.Call<bool>(Hash.DOES_ENTITY_EXIST, humaneLabs);
+            if (humaneLabsExists)
+                humaneLabs.Remove();
+
+            // TODO : Add parking hotspot + blip
+            // TODO : Make guard wave truck through checkpoint?
+
+            // Spawn security
+            var gateGuard1 = World.CreatePed(PedHash.Security01SMM, Game.Player.Character.GetOffsetInWorldCoords(new Vector3(0, 5, 0)));
+            // Set some properties
+            gateGuard1.Weapons.Give(WeaponHash.CombatPistol, 500, false, true);
+
+            
+
+
+            /* ------------------------------------------ TESTING --------------------- */
+            // Tranisition weather to be foggy
+            Function.Call(Hash._SET_WEATHER_TYPE_OVER_TIME, "FOOGY", 20000);
+            /* ------------------------------------------ TESTING --------------------- */
+
+            // Display mission objective
+            UI.ShowSubtitle("Park the ~b~Trash truck~w~ in the service area", 15000);
             Common.runDebug();
         }
     }

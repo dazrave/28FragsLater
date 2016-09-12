@@ -168,6 +168,9 @@ namespace _28_Frags_Later
             // Day 1 options
             if (currentDay == 1)
             {
+                // TODO: Has player arrived at junkYard
+                // TODO: Trigger objective message (find trashTruck)
+
                 // Is player trying to enter the locked trashTruck
                 var trashTruckFound = Function.Call<bool>(Hash.IS_PED_TRYING_TO_ENTER_A_LOCKED_VEHICLE, Game.Player.Character);
                 if (trashTruckFound && currentStage == 1)
@@ -179,7 +182,7 @@ namespace _28_Frags_Later
                         Day1.Day1Stage3();
                 // Has the trashTruck been destroyed
                 var trashTruckDestroyed = Function.Call<bool>(Hash.IS_ENTITY_DEAD, Day1.trashTruck);
-                if (trashTruckDestroyed && currentStage <= 2)
+                if (trashTruckDestroyed && currentStage <= 5)
                     missionFailed("The ~b~Trash truck~s~ has been ~r~destroyed~s~!", currentDay, 0);
                 // Is player in trashTruck
                 if (player.CurrentVehicle == Day1.trashTruck && currentStage == 3)
