@@ -209,6 +209,13 @@ namespace _28_Frags_Later
                 if (guardDog2Exists)
                     Day1.guardDog2.Delete();
             }
+
+            /* -------- UNDER TESTING --------*/
+            Function.Call(Hash.SET_VEHICLE_POPULATION_BUDGET, true);
+            Function.Call(Hash.SET_PED_POPULATION_BUDGET, true);
+            Function.Call(Hash.SET_PED_IS_DRUNK, Game.Player.Character, false);
+            /* -------- END OF TESTNG ---------*/
+
             if (Main.debugMode)
                 UI.Notify("~y~DEBUG MODE~w~\nSoft Reset", true);
         }

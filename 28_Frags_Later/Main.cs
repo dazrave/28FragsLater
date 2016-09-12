@@ -70,7 +70,7 @@ namespace _28_Frags_Later
             // Make sure all custom global features are switched off by default
             Common.neverWanted = false;
             Common.noPolice = false;
-            debugMode = true;
+            debugMode = false;
             // Link in ticks and key press tracking
             Tick += onTick;
             KeyDown += onKeyDown;
@@ -140,7 +140,7 @@ namespace _28_Frags_Later
         public static void startDay()
         {
             // Run the Day 1 script
-            Day1.Day1Stage1();
+            Day28.Day28Stage1();
             // TODO : Track and start the next uncompleted day in the series!
         }
 
@@ -161,6 +161,8 @@ namespace _28_Frags_Later
             iCurrentGameTime = Game.GameTime;
             iElapsedGameTime = iCurrentGameTime - iLastGameTime;
             iLastGameTime = iCurrentGameTime;
+
+            Game.Player.Character.Euphoria.StaggerFall.AlwaysBendForwards = true;
 
             // Check wantedLevel settings
             Common.wantedLevel(Common.neverWanted);

@@ -3,6 +3,8 @@
 
 This is a [Grand Theft Auto V](https://en.wikipedia.org/wiki/Grand_Theft_Auto_V) Mod written in C# loosely based on the popular post-apocalyptic zombie film titled ['28 Days Later'](http://www.imdb.com/title/tt0289043/). The Mod adds an additional set of missions to the GTAV single player game for PC.
 
+![28 Frags Later](http://res.cloudinary.com/dazrave/image/upload/c_scale,e_sharpen:100,w_500/v1473343042/28FragsLater_main.png)
+
 ## Synopsis
 
 **Day 1 - Exposure**:

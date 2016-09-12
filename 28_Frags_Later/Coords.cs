@@ -41,7 +41,7 @@ namespace _28_Frags_Later
         private void Initialise()
         {
             LoadSettingsFile();
-            UI.Notify("~y~Coordinate Collector: ~w~v1");
+            // UI.Notify("~y~Coordinate Collector: ~w~v1");
         }
 
         private void LoadSettingsFile()
