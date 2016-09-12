@@ -19,6 +19,7 @@ namespace _28_Frags_Later
         public static bool neverWanted;
         public static bool noPeds;
         public static bool noBlips;
+        public static Vector3 playerCoords;
 
         // Spawn a ped
         public static Ped SpawnPed(Model pedname, Vector3 location, bool friendly)
@@ -30,6 +31,17 @@ namespace _28_Frags_Later
                 ped.Task.FightAgainst(Game.Player.Character);
             return ped;
         }
+        // Run to player
+        public static void runToPlayer(Ped ped)
+        {
+            if (Game.Player.Character.IsInVehicle())
+                Function.Call(Hash.TASK_FOLLOW_TO_OFFSET_OF_ENTITY, ped, Game.Player.Character.CurrentVehicle, 3, 3, 3, -1, 10.0, 1, true);
+
+            if (!Game.Player.Character.IsInVehicle())
+                Function.Call(Hash.TASK_GO_TO_ENTITY_WHILE_AIMING_AT_ENTITY, ped, Game.Player.Character, Game.Player.Character, 1, true, 0, 0, 0, 0);
+
+            ped.Task.FightAgainst(Game.Player.Character);
+        }
         // Spawn gaurd dog
         public static Ped SpawnGuardDog()
         {
@@ -38,7 +50,7 @@ namespace _28_Frags_Later
             int guardDoglocNum = rndGuardDog.Next(0, Day1.guardDogLocations.Count);
             float[] guardDogCoords = Day1.guardDogLocations[guardDoglocNum];
 
-            // Spawn the guardDog2
+            // Spawn the guardDog
             Ped dog = SpawnPed(PedHash.Rottweiler, new Vector3(guardDogCoords[0], guardDogCoords[1], guardDogCoords[2]), false);
             var playerCoords = Function.Call<Vector3>(Hash.GET_ENTITY_COORDS, Game.Player.Character, true);
             dog.Task.RunTo(playerCoords);

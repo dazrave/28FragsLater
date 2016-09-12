@@ -137,6 +137,11 @@ namespace _28_Frags_Later
                 guardDog2Spawned = true;
                 UI.ShowSubtitle("~y~keys~w~ found, get to the ~b~Trash truck~s~.", 15000);
             }
+            // Make sure dogs always attack
+            if (Day1.guardDog1Spawned && Main.currentStage <= 4)
+                Common.runToPlayer(Day1.guardDog1);
+            if (Day1.guardDog2Spawned && Main.currentStage <= 4)
+                Common.runToPlayer(Day1.guardDog2);
             Common.runDebug();
         }
         // Start Day 1 Stage 4

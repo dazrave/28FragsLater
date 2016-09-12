@@ -200,6 +200,12 @@ namespace _28_Frags_Later
                     UI.ShowSubtitle("Get back into the ~b~Trash truck~s~.", 15000);
                     Common.runDebug();
                 }
+                // Make sure dogs always attack
+                if (Day1.guardDog1Spawned && currentStage <= 4)
+                    Common.runToPlayer(Day1.guardDog1);
+                if (Day1.guardDog2Spawned && currentStage <= 4)
+                    Common.runToPlayer(Day1.guardDog2);
+
             }
         }
     }
