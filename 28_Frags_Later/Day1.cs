@@ -104,12 +104,8 @@ namespace _28_Frags_Later
             trashTruckKeys = World.CreateProp(-331172978, new Vector3(2351.69f, 3118.53f, 48.19f), false, false);
             // Set blip for keys
             Common.SpawnPropBlip(trashTruckKeys, BlipSprite.Key, 28, false);
-
-            /* ------------------------------------------ TESTING --------------------- */
             // Spawn and setup guard dog 1
             guardDog1 = Common.SpawnGuardDog();
-            /* ------------------------------------------ TESTING --------------------- */
-
             // Prevent spawning an additional guard dog
             guardDog1Spawned = true;
             // Display mission objective
@@ -133,11 +129,8 @@ namespace _28_Frags_Later
             // if guardDog2 has never spawned
             if (!guardDog2Spawned)
             {
-                /* ------------------------------------------ TESTING --------------------- */
                 // Spawn and setup guard dog 2
                 guardDog2 = Common.SpawnGuardDog();
-                /* ------------------------------------------ TESTING --------------------- */
-
                 // Prevent spawning an additional guard dog
                 guardDog2Spawned = true;
                 UI.ShowSubtitle("~y~keys~w~ found, get to the ~b~Trash truck~s~.", 15000);
@@ -150,35 +143,16 @@ namespace _28_Frags_Later
             // Update Day and Stage
             Main.currentDay = 1;
             Main.currentStage = 4;
-
-            /* ------------------------------------------ TESTING --------------------- */
             // Remove trashTruck blip
             var trashTruckBlipExists = Function.Call<bool>(Hash.DOES_BLIP_EXIST, trashTruck.CurrentBlip);
             if (trashTruckBlipExists)
                 trashTruck.CurrentBlip.Remove();
-            /* ------------------------------------------ TESTING END --------------------- */
-
             // Spawn a blip at HumaneLabs
             humaneLabs = Common.SpawnBlip(3370.720f, 3695.381f, 37.211f, BlipSprite.BigCircle, 21, true);
-
             // Tranisition weather to be foggy
             Function.Call(Hash._SET_WEATHER_TYPE_OVER_TIME, "FOGGY", 50000);
 
             // TODO : Remove default guard from checkpoint
-
-            /* ------------------------------------------ TESTING --------------------- */
-            // Spawn security
-            var gateGuard1 = World.CreatePed(PedHash.Security01SMM, new Vector3(3370.720f, 3695.381f, 37.211f));
-            // Give gateGuard1 a gun that's holstered
-            gateGuard1.Weapons.Give(WeaponHash.CombatPistol, 500, false, true);
-            // Give gateGuard1 a clipboard
-            Function.Call(Hash.TASK_START_SCENARIO_IN_PLACE, gateGuard1, "WORLD_HUMAN_CLIPBOARD", 0, true);
-
-            // WORLD_HUMAN_SECURITY_SHINE_TORCH
-            // WORLD_HUMAN_GUARD_PATROL
-            // WORLD_HUMAN_GUARD_STAND
-
-            /* ------------------------------------------ TESTING END --------------------- */
 
             // Display mission objective
             UI.ShowSubtitle("Drive to the ~b~Humane Research Facility~s~.", 15000);

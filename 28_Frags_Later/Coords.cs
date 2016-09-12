@@ -134,7 +134,7 @@ namespace _28_Frags_Later
                     {
                         // Build the string information
                         string _header = String.Format("", counter);
-                        string _vector3 = "new[] {" + _coStruct.Location.X.ToString() + ", " + _coStruct.Location.Y.ToString() + ", " + _coStruct.Location.Z.ToString() + "}, ";
+                        string _vector3 = "new[] {" + _coStruct.Location.X.ToString() + "f, " + _coStruct.Location.Y.ToString() + "f, " + _coStruct.Location.Z.ToString() + "f}, ";
                         string _streetName = _coStruct.StreetName;
                         string bstring = _header + _vector3 + " // {0} - " + _streetName;
                         sw.WriteLine(bstring);

@@ -140,7 +140,7 @@ namespace _28_Frags_Later
         public static void startDay()
         {
             // Run the Day 1 script
-            Day28.Day28Stage1();
+            Day3.Day3Stage1();
             // TODO : Track and start the next uncompleted day in the series!
         }
 
