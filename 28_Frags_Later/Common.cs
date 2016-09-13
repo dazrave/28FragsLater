@@ -45,6 +45,14 @@ namespace _28_Frags_Later
         // Spawn gaurd dog
         public static Ped SpawnGuardDog()
         {
+            // Get potential spawn locations based off of trash truck
+            if (Day1.trashTruckLocationID == 1)
+                Day1.guardDogLocations = Day1.guardDogLocations1;
+            if (Day1.trashTruckLocationID == 2)
+                Day1.guardDogLocations = Day1.guardDogLocations2;
+            if (Day1.trashTruckLocationID == 3)
+                Day1.guardDogLocations = Day1.guardDogLocations3;
+
             // Choose spawn point at random
             Random rndGuardDog = new Random();
             int guardDoglocNum = rndGuardDog.Next(0, Day1.guardDogLocations.Count);
@@ -174,8 +182,8 @@ namespace _28_Frags_Later
             foreach (Blip b in World.GetActiveBlips())
                 b.Remove();
             // Detect and delete all props
-            //foreach (Prop o in World.GetAllProps())
-            //    o.Delete();
+            foreach (Prop o in World.GetAllProps())
+                o.Delete();
             // Reset Day and Stage values (do this last)
             Main.currentDay = 0;
             Main.currentStage = 0;

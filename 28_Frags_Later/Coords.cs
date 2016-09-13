@@ -103,16 +103,14 @@ namespace _28_Frags_Later
 
                 // Add the struct to the dictionary using the counter as the key. Values are stored in the dictionary as ("Key", coordStruct)
                 coordinateDictionary.Add(coordCounter.ToString(), _cs);
-                UI.Notify("Coord: " + coordCounter.ToString() + " added.");
-                UI.Notify(coordCounter.ToString() + ": Position: " + _cs.Location.ToString());
-                UI.Notify(coordCounter.ToString() + ": Street: " + _cs.StreetName);
+                UI.Notify("~y~DEBUG MODE~w~\n" + coordCounter.ToString() + "\nPosition: " + _cs.Location.ToString() +"\nStreet: " + _cs.StreetName);
 
                 coordCounter++;
             }
 
             if (e.KeyCode == keySaveFileKey)
             {
-                UI.Notify("Writing coords data...");
+                UI.Notify("~y~DEBUG MODE~w~\nWriting coords data...");
                 string path_pre = "scripts\\Coordinate-Collection";
                 string path_ext = ".txt";
                 int counter = 0;
@@ -141,7 +139,7 @@ namespace _28_Frags_Later
                         counter++;
                     }
                 }
-                UI.ShowSubtitle("Writing File: " + fullpath + " complete.");
+                UI.ShowSubtitle("~y~DEBUG MODE~w~\nWriting File: " + fullpath + " complete.");
             }
         }
     }

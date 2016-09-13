@@ -19,19 +19,27 @@ namespace _28_Frags_Later
         public static Prop trashTruckKeys;
         public static int trashTruckLocationID;
         public static Vehicle startBike;
-        // Set all posible spawn locations for guardDog2
-        public static List<float[]> guardDogLocations = new List<float[]>
+        // Set all posible spawn locations for guardDog
+        public static List<float[]> guardDogLocations;
+        public static List<float[]> guardDogLocations1 = new List<float[]>
             {
-                new[] {2433.019f, 3102.601f, 48.15314f},
-                new[] {2420.096f, 3116.658f, 48.22654f},
-                new[] {2398.185f, 3092.568f, 48.15303f},
-                new[] {2380.436f, 3103.357f, 48.15226f},
-                new[] {2359.383f, 3146.506f, 48.21078f},
-                new[] {2335.761f, 3130.27f, 48.19604f},
-                new[] {2431.36f, 3152.774f, 48.19345f},
-                new[] {2398.923f, 3080.626f, 49.08483f},
-                new[] {2385.458f, 3030.105f, 48.15287f},
-                new[] {2332.521f, 3072.917f, 48.15255f}
+                new[] {2366.19f, 3142.537f, 48.20892f},
+                new[] {2362.875f, 3118.148f, 48.20892f},
+                new[] {2337f, 3128.009f, 48.2035f},
+                new[] {2340.128f, 3148.405f, 48.16832f}
+            };
+        public static List<float[]> guardDogLocations2 = new List<float[]>
+            {
+                new[] {2420.758f, 3051.209f, 48.15234f},
+                new[] {2393.323f, 3027.323f, 48.15283f},
+                new[] {2420.204f, 3096.625f, 48.15293f},
+                new[] {2393.492f, 3049.265f, 48.63544f}
+            };
+        public static List<float[]> guardDogLocations3 = new List<float[]>
+            {
+                new[] {2380.464f, 3036.307f, 48.15262f},
+                new[] {2369.535f, 3072.058f, 48.15285f},
+                new[] {2338.327f, 3075.032f, 48.15235f}
             };
         public static Ped guardDog1;
         public static bool guardDog1Spawned;
@@ -100,8 +108,16 @@ namespace _28_Frags_Later
             junkYard.Remove();
             // Add blip to trashTruck
             Common.SpawnVehicleBlip(trashTruck, BlipSprite.GarbageTruck, 21, false);
+            //trashTruckKeys = World.CreateProp(-331172978, new Vector3(2351.69f, 3118.53f, 48.19f), false, false);
             // Spawn the keys
-            trashTruckKeys = World.CreateProp(-331172978, new Vector3(2351.69f, 3118.53f, 48.19f), false, false);
+            //if (trashTruckLocationID > 1)
+            //{
+                trashTruckKeys = World.CreateProp(-331172978, new Vector3(2370.5f, 3157.19f, 47.55f), false, false);
+                // Patio table
+                World.CreateProp(-1682596365, new Vector3(2370.49f, 3157.18f, 47.37f), false, false);
+            //}
+                
+
             // Set blip for keys
             Common.SpawnPropBlip(trashTruckKeys, BlipSprite.Key, 28, false);
             // Spawn and setup guard dog 1
